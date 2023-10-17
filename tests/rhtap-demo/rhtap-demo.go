@@ -106,27 +106,27 @@ var _ = framework.RhtapDemoSuiteDescribe(Label("rhtap-demo"), func() {
 				})
 
 				// Remove all resources created by the tests
-				AfterAll(func() {
-					// collect SPI ResourceQuota metrics (temporary)
-					err := fw.AsKubeAdmin.CommonController.GetResourceQuotaInfo("rhtap-demo", namespace, "appstudio-crds-spi")
-					Expect(err).NotTo(HaveOccurred())
+				// AfterAll(func() {
+				// 	// collect SPI ResourceQuota metrics (temporary)
+				// 	err := fw.AsKubeAdmin.CommonController.GetResourceQuotaInfo("rhtap-demo", namespace, "appstudio-crds-spi")
+				// 	Expect(err).NotTo(HaveOccurred())
 
-					if !CurrentSpecReport().Failed() {
-						if err := fw.AsKubeAdmin.HasController.DeleteAllComponentsInASpecificNamespace(namespace, 60*time.Second); err != nil {
-							if err := fw.AsKubeAdmin.StoreAllArtifactsForNamespace(namespace); err != nil {
-								Fail(fmt.Sprintf("error archiving artifacts:\n%s", err))
-							}
-							Fail(fmt.Sprintf("error deleting all componentns in namespace:\n%s", err))
-						}
-						Expect(fw.AsKubeAdmin.HasController.DeleteAllApplicationsInASpecificNamespace(namespace, 30*time.Second)).To(Succeed())
-						Expect(fw.AsKubeAdmin.CommonController.DeleteAllSnapshotEnvBindingsInASpecificNamespace(namespace, 30*time.Second)).To(Succeed())
-						Expect(fw.AsKubeAdmin.IntegrationController.DeleteAllSnapshotsInASpecificNamespace(namespace, 30*time.Second)).To(Succeed())
-						Expect(fw.AsKubeAdmin.GitOpsController.DeleteAllEnvironmentsInASpecificNamespace(namespace, 30*time.Second)).To(Succeed())
-						Expect(fw.AsKubeAdmin.TektonController.DeleteAllPipelineRunsInASpecificNamespace(namespace)).To(Succeed())
-						Expect(fw.AsKubeAdmin.GitOpsController.DeleteAllGitOpsDeploymentsInASpecificNamespace(namespace, 30*time.Second)).To(Succeed())
-						Expect(fw.SandboxController.DeleteUserSignup(fw.UserName)).To(BeTrue())
-					}
-				})
+				// 	if !CurrentSpecReport().Failed() {
+				// 		if err := fw.AsKubeAdmin.HasController.DeleteAllComponentsInASpecificNamespace(namespace, 60*time.Second); err != nil {
+				// 			if err := fw.AsKubeAdmin.StoreAllArtifactsForNamespace(namespace); err != nil {
+				// 				Fail(fmt.Sprintf("error archiving artifacts:\n%s", err))
+				// 			}
+				// 			Fail(fmt.Sprintf("error deleting all componentns in namespace:\n%s", err))
+				// 		}
+				// 		Expect(fw.AsKubeAdmin.HasController.DeleteAllApplicationsInASpecificNamespace(namespace, 30*time.Second)).To(Succeed())
+				// 		Expect(fw.AsKubeAdmin.CommonController.DeleteAllSnapshotEnvBindingsInASpecificNamespace(namespace, 30*time.Second)).To(Succeed())
+				// 		Expect(fw.AsKubeAdmin.IntegrationController.DeleteAllSnapshotsInASpecificNamespace(namespace, 30*time.Second)).To(Succeed())
+				// 		Expect(fw.AsKubeAdmin.GitOpsController.DeleteAllEnvironmentsInASpecificNamespace(namespace, 30*time.Second)).To(Succeed())
+				// 		Expect(fw.AsKubeAdmin.TektonController.DeleteAllPipelineRunsInASpecificNamespace(namespace)).To(Succeed())
+				// 		Expect(fw.AsKubeAdmin.GitOpsController.DeleteAllGitOpsDeploymentsInASpecificNamespace(namespace, 30*time.Second)).To(Succeed())
+				// 		Expect(fw.SandboxController.DeleteUserSignup(fw.UserName)).To(BeTrue())
+				// 	}
+				// })
 
 				// Create an application in a specific namespace
 				It("creates an application", func() {
